@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import API from "./utils/API";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 
 export const MyContext = React.createContext();
 
@@ -16,7 +15,7 @@ export const MyProvider = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
-  const [topics, setTopics] = useState([])
+  const [topics, setTopics] = useState([]);
   let [posts, setPosts] = useState([]);
   let history = useHistory();
 
@@ -29,12 +28,6 @@ export const MyProvider = (props) => {
 
   // }, [token]);
 
-
-
-
-
-
-  
   const tokenConfig = () => {
     let checkToken = localStorage.getItem("token");
 
@@ -50,13 +43,13 @@ export const MyProvider = (props) => {
 
     return config;
   };
- 
+
   const loadUser = () => {
     API.getUser(tokenConfig())
       .then((result) => {
-        console.log(result.data)
+        console.log(result.data);
         setIsAuthenticated(true);
-      updateUser(result.data)
+        updateUser(result.data);
         history.push("/dashboard");
       })
       .catch((error) => {
@@ -68,13 +61,13 @@ export const MyProvider = (props) => {
     setToken(null);
   };
 
-  const fetchPosts=()=>{
-
-    API.getPosts().then((result) => {
-      
-      setPosts(result.data);
-    }).catch(err=>console.log(err))
-  }
+  const fetchPosts = () => {
+    API.getPosts()
+      .then((result) => {
+        setPosts(result.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <MyContext.Provider
@@ -92,11 +85,11 @@ export const MyProvider = (props) => {
         setToken,
         removeToken,
         tokenConfig,
-        topics, 
+        topics,
         setTopics,
         posts,
         setPosts,
-        fetchPosts
+        fetchPosts,
       }}
     >
       {props.children}

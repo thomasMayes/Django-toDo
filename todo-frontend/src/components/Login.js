@@ -3,50 +3,48 @@ import API from "../utils/API";
 import { MyContext } from "../Provider";
 import { useHistory } from "react-router-dom";
 import { Register } from "./new.register.jsx";
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { Alert } from '@material-ui/lab';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { Alert } from "@material-ui/lab";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-    //   marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(1),
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-    },
-    container: {
-        background: 'url(./dial.jpg)',
-        height: '100vh'
-    },
-    login: {
-        background: '#ffffff66'
-    }
-  }));
+  paper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  container: {
+    background: "url(./dial.jpg)",
+    height: "100vh",
+  },
+  login: {
+    background: "#ffffff66",
+  },
+}));
 
 const Login = (props) => {
-    
   let history = useHistory();
 
   let state = useContext(MyContext);
@@ -54,7 +52,6 @@ const Login = (props) => {
   let [password, updatePassword] = useState("");
   let [message, updateMessage] = useState("");
   let [email, updateEmail] = useState("");
-  let [display, updateDisplay] = useState("login");
 
   const classes = useStyles();
 
@@ -64,18 +61,11 @@ const Login = (props) => {
     API.login(email, password)
       .then((result) => {
         state.setToken(result.data.token);
-        localStorage.setItem('token', result.data.token )
-        state.updateUser(result.data.user)
-        state.setIsAuthenticated(true)
-    console.log(result)
+        localStorage.setItem("token", result.data.token);
+        state.updateUser(result.data.user);
+        state.setIsAuthenticated(true);
 
-        // updateMessage({
-        //     message: "Login failed. Username or password not match",
-        //     status: "error",
-        //   });
-
-     
-         history.push("/dashboard");
+        history.push("/dashboard");
       })
       .catch((error) => {
         console.log(error);
@@ -87,11 +77,10 @@ const Login = (props) => {
         }
       });
   };
- 
-    return (
-        <div className={classes.container}>
 
-        <Container  className={classes.login} component="main" maxWidth="xs">
+  return (
+    <div className={classes.container}>
+      <Container className={classes.login} component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -100,7 +89,7 @@ const Login = (props) => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-            {message&& <Alert severity="error">{message.message}</Alert>}
+          {message && <Alert severity="error">{message.message}</Alert>}
           <form className={classes.form} noValidate>
             <TextField
               variant="outlined"
@@ -112,8 +101,8 @@ const Login = (props) => {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={(e)=> updateEmail(e.target.value)}
-              />
+              onChange={(e) => updateEmail(e.target.value)}
+            />
             <TextField
               variant="outlined"
               margin="normal"
@@ -124,20 +113,18 @@ const Login = (props) => {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={(e)=> updatePassword(e.target.value)}
-              
-              />
+              onChange={(e) => updatePassword(e.target.value)}
+            />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
             <Button
-         
-         fullWidth
-         variant="contained"
-         color="primary"
-         className={classes.submit}
-         onClick={onSubmit}
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={onSubmit}
             >
               Sign In
             </Button>
@@ -155,12 +142,9 @@ const Login = (props) => {
             </Grid>
           </form>
         </div>
-        <Box mt={8}>
-          {state.isAuthenticated && <h1>"G@G!"</h1>}
-        </Box>
+        <Box mt={8}>{state.isAuthenticated && <h1>"G@G!"</h1>}</Box>
       </Container>
-         </div>
-    );
- 
+    </div>
+  );
 };
 export default Login;

@@ -19,12 +19,6 @@ export const Header = () => {
 
   return (
     <Grid item xs={12} align="right" style={{background: '#0a1e25'}}>
-      {/* <Typography variant="h3" compact="h3">
-        
-      </Typography>
-      <Button  variant="contained" color="primary" onClick={logout}>
-        Sign Out
-      </Button> */}
       <CusButton onClick={logout}>
         Log Out
       </CusButton>

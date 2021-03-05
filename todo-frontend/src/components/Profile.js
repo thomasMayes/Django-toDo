@@ -4,16 +4,8 @@ import mockRepos from "../mockData.js/mockRepos";
 import mockFollowers from "../mockData.js/mockFollowers";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import {
-    Input,
-    TextField,
-    Grid,
-    Button,
-    ButtonGroup,
-    Typography,
-    Avatar
-  } from "@material-ui/core";
-  import {PieCharts} from './Pie'
+import { Grid, Typography, Avatar } from "@material-ui/core";
+import { PieCharts } from "./Pie";
 
 const rootUrl = "https://api.github.com";
 
@@ -40,7 +32,7 @@ export const Profile = () => {
     setError({ show, msg });
   }
 
-//   ======================== FETCH GitHub UserINfo==================================
+  //   ======================== FETCH GitHub UserINfo==================================
 
   const searchGithubUser = async (user) => {
     toggleError();
@@ -74,9 +66,10 @@ export const Profile = () => {
     setLoading(false);
   };
 
-//==============================================================
+  //==============================================================
+  // reduce repo arr to object with language keys holding that language count and stars  
 
-const languages = repos.reduce((total, item) => {
+  const languages = repos.reduce((total, item) => {
     const { language, stargazers_count } = item;
     if (!language) return total;
     if (!total[language]) {
@@ -97,27 +90,25 @@ const languages = repos.reduce((total, item) => {
     })
     .slice(0, 5);
 
-console.log(mostUsed)
   if (loading) {
     return <h1>LOADING....</h1>;
   } else {
     return (
-        <Grid container align="center" justify='center' >
-
+      <Grid container align="center" justify="center">
         <Typography component="h1" variant="h5">
-        <Avatar alt="Cindy Baker" src={githubUser.avatar_url} />
-        {githubUser.login}
+          <Avatar alt="Cindy Baker" src={githubUser.avatar_url} />
+          {githubUser.login}
+        </Typography>
 
-</Typography>
-
-<Grid item container align="center" justify='center' style={{height: 200 }}>
-
-
-  <PieCharts data={mostUsed}/>
-
-</Grid>
-
-
+        <Grid
+          item
+          container
+          align="center"
+          justify="center"
+          style={{ height: 200 }}
+        >
+          <PieCharts data={mostUsed} />
+        </Grid>
       </Grid>
     );
   }

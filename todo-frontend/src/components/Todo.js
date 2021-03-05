@@ -9,9 +9,6 @@ import {
   CardActions,
   CardContent,
   Collapse,
-  Paper,
-  Link,
-  Modal,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
