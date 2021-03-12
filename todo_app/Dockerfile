@@ -9,5 +9,6 @@ RUN pip install -r requirements.txt
 
 COPY . /Code/
 
-# ENTRYPOINT python /Code/manage.py runserver 0.0.0.0:8000
-# CMD ["python", "Code/manage.py", "runserver", "0.0.0.0:8001"]
+CMD python manage.py makemigrations && python manage.py migrate && python manage.py runserver
+# CMD ["python", "manage.py", "migrate"]
+# CMD ["python", "manage.py", "runserver"]

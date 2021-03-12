@@ -18,10 +18,10 @@ class TopicLister(serializers.PrimaryKeyRelatedField):
 class OwnerLister(serializers.RelatedField):
     def to_representation(self, value):
 
-        thing = {
-            'username': value.username
+        return {
+            'username': value.username,
+            'id': value.id
         }
-        return thing
 
 
 class TopicSerializer(serializers.ModelSerializer):

@@ -8,18 +8,27 @@ import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 //   { name: 'Group D', value: 200 },
 // ];
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = ["#1f46a055", "#00C49F55", "#e4982155", "#FF8042aa"];
 
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  percent,
-  index,
-}) => {
+
+
+
+// creat file to hold this +++++++++++++++++++++++++++++++++++++++
+const renderCustomizedLabel = (props) => {
+
+  let {
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index,
+    label
+  } = props
+
+  console.log(props)
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -32,10 +41,14 @@ const renderCustomizedLabel = ({
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
-      {`${(percent * 100).toFixed(0)}%`}
+      {/* {`${label +(percent * 100).toFixed(0)}%`} */}
+      {`${label}`}
     </text>
   );
 };
+// =++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 
 export const PieCharts = ({ data }) => {
   return (

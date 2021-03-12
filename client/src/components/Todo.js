@@ -20,6 +20,7 @@ import ControlPoint from "@material-ui/icons/ControlPoint";
 import clsx from "clsx";
 import SimpleModal from "./SimpleModal";
 import { MyContext } from "../Provider";
+import {useHistory} from 'react-router-dom'
 
 var moment = require("moment");
 const useStyles = makeStyles((theme) => ({
@@ -69,13 +70,12 @@ export const Todo = ({ item }) => {
   const [expanded, setExpanded] = React.useState(false);
   const [menuShow, setMenuShow] = React.useState(false);
   const { user } = useContext(MyContext);
-
+const history = useHistory()
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  console.log(item);
-  console.log(user);
+
 
   return (
     <Grid item xs={12} sm={12}>
@@ -87,7 +87,9 @@ export const Todo = ({ item }) => {
             </IconButton>
           }
           avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
+            <Avatar onClick ={()=>{
+              history.push(`profile?id =${item.owner.id}`)
+            }}aria-label="recipe" className={classes.avatar}>
               {item.owner.username[0].toUpperCase()}
             </Avatar>
           }
