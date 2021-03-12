@@ -31,7 +31,7 @@ export const Profile = () => {
   useEffect(() => {
     let requestedUser = query.get("id");
 
-API.getUser(requestedUser, tokenConfig()).then(result=>searchGithubUser(result.data.githubUser ))
+API.getUser(requestedUser, tokenConfig()).then(result=>searchGithubUser(result.data.githubuser ))
     // if (requestedUser) {
     //   searchGithubUser(requestedUser);
     // }

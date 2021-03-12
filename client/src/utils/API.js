@@ -27,7 +27,7 @@ export default {
     return axios.patch(baseUrl+ `/api/posts/${postId}/`, body, config)
   },
   getUser: (id, config)=>{
-    return axios.get(baseUrl+ `/api/user/${id}`, config)
+    return axios.get(baseUrl+ `/api/profile/${id}`, config)
   }
 
 };

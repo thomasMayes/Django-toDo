@@ -5,6 +5,8 @@ from .serializers import ProfileSerializer
 from .models import Profile
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from posts.models import Post
+from .serializers import PostSerializer
 import json
 
 
@@ -14,8 +16,18 @@ class UserProfileView(generics.RetrieveAPIView):
     def get(self, request, **kwargs):
         user_id = self.kwargs['id']
         userprofile = Profile.objects.filter(user=user_id)[0]
+        userposts = Post.objects.filter(owner=user_id)
+        serializer = PostSerializer(userposts, many=True)
+        print(serializer.data)
 
-        return Response(ProfileSerializer(userprofile).data, status=status.HTTP_200_OK)
+        result = {
+            'profile': ProfileSerializer(userprofile).data,
+            'posts': serializer.data
+
+        }
+        print(result)
+
+        return Response(result, status=status.HTTP_200_OK)
 
 
 # Create your views here.
