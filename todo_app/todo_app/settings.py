@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'knox',
     'accounts',
-    'posts'
+    'posts',
+    'profiles'
 
 ]
 

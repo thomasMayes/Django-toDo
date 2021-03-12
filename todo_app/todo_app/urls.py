@@ -22,6 +22,7 @@ urlpatterns = [
     # path('api/', include(router.urls)),
     path('', include('accounts.urls')),
     path('', include('posts.urls')),
+    path('', include('profiles.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
 
