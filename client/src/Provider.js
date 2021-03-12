@@ -45,9 +45,9 @@ export const MyProvider = (props) => {
   };
 
   const loadUser = () => {
-    API.getUser(tokenConfig())
+    API.getCurrentUser(tokenConfig())
       .then((result) => {
-        console.log(result.data);
+       
         setIsAuthenticated(true);
         updateUser(result.data);
         history.push("/dashboard");

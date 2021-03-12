@@ -2,7 +2,7 @@ import axios from "axios";
  const baseUrl = `http://localhost:8000`
 
 export default {
-  getUser: (config) => {
+  getCurrentUser: (config) => {
       return  axios.get(baseUrl+"/api/auth/user", config);
     },
   login:(username , password)=>{
@@ -25,6 +25,9 @@ export default {
   },
   addTopic: (postId, body, config)=>{
     return axios.patch(baseUrl+ `/api/posts/${postId}/`, body, config)
+  },
+  getUser: (id, config)=>{
+    return axios.get(baseUrl+ `/api/user/${id}`, config)
   }
 
 };

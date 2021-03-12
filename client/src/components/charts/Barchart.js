@@ -12,7 +12,6 @@ import {
 } from "recharts";
 
 export const MostPopular = ({ data }) => {
-  console.log(data);
 
   return (
     <ResponsiveContainer width={500} height="100%">

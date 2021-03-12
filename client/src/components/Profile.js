@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
+import { MyContext } from "../Provider";
 import mockUser from "../mockData.js/mockUser";
 import mockRepos from "../mockData.js/mockRepos";
 import mockFollowers from "../mockData.js/mockFollowers";
@@ -8,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import { Grid, Typography, Avatar } from "@material-ui/core";
 import { PieCharts } from "./Pie";
 import {MostPopular} from './charts/Barchart'
-
+import API from "../utils/API";
 const rootUrl = "https://api.github.com";
 
 function useQuery() {
@@ -22,13 +23,18 @@ export const Profile = () => {
   const [followers, setFollowers] = useState(mockFollowers);
   const [githubUser, setGithubUser] = useState(mockUser);
   const [events, setEvents] = useState(mockEvents)
-  let query = useQuery();
+  let query = useQuery(); 
+  let {tokenConfig} = useContext(MyContext);
+
+
 
   useEffect(() => {
-    let requestedUser = query.get("name");
-    if (requestedUser) {
-      searchGithubUser(requestedUser);
-    }
+    let requestedUser = query.get("id");
+
+API.getUser(requestedUser, tokenConfig()).then(result=>searchGithubUser(result.data.githubUser ))
+    // if (requestedUser) {
+    //   searchGithubUser(requestedUser);
+    // }
   }, []);
 
   function toggleError(show = false, msg = "") {

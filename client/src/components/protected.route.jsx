@@ -4,7 +4,7 @@ import { MyContext } from "../Provider";
 
 export const ProtectedRoute = ({ component: Component, ...rest }) => {
   let state = useContext(MyContext);
-  console.log(state.isAuthenticated)
+  
 
   let token = localStorage.getItem('token')
 
