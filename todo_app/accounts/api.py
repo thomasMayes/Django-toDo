@@ -2,7 +2,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 
 # Register API
 

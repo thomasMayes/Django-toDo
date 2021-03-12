@@ -5,4 +5,4 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    githubuser = models.TextField(max_length=500, blank=False)
+    githubuser = models.TextField(max_length=500, null=False)
