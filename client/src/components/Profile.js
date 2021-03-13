@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { MyContext } from "../Provider";
 import mockUser from "../mockData.js/mockUser";
 import mockRepos from "../mockData.js/mockRepos";
@@ -6,10 +6,12 @@ import mockFollowers from "../mockData.js/mockFollowers";
 import mockEvents from "../mockData.js/mockEvents";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { Grid, Typography, Avatar } from "@material-ui/core";
+import { Grid, Typography, Avatar, CircularProgress } from "@material-ui/core";
 import { PieCharts } from "./Pie";
-import {MostPopular} from './charts/Barchart'
+import { MostPopular } from "./charts/Barchart";
+import Followers from './Followers'
 import API from "../utils/API";
+import { Todo } from "./Todo";
 const rootUrl = "https://api.github.com";
 
 function useQuery() {
@@ -17,21 +19,24 @@ function useQuery() {
 }
 
 export const Profile = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState({ show: false, msg: "" });
   const [repos, setRepos] = useState(mockRepos);
   const [followers, setFollowers] = useState(mockFollowers);
   const [githubUser, setGithubUser] = useState(mockUser);
-  const [events, setEvents] = useState(mockEvents)
-  let query = useQuery(); 
-  let {tokenConfig} = useContext(MyContext);
-
-
+  const [events, setEvents] = useState(mockEvents);
+  const [posts, setPosts] = useState([]);
+  let query = useQuery();
+  let { tokenConfig } = useContext(MyContext);
 
   useEffect(() => {
     let requestedUser = query.get("id");
 
-API.getUser(requestedUser, tokenConfig()).then(result=>searchGithubUser(result.data.githubuser ))
+    API.getUserProfile(requestedUser, tokenConfig()).then((result) => {
+      searchGithubUser(result.data.profile.githubuser )
+      setPosts(result.data.posts);
+      // setLoading(false);
+    });
     // if (requestedUser) {
     //   searchGithubUser(requestedUser);
     // }
@@ -67,41 +72,35 @@ API.getUser(requestedUser, tokenConfig()).then(result=>searchGithubUser(result.d
           if (followers.status === status) {
             setFollowers(followers.value.data);
           }
-          if (events.status === status) {  
+          if (events.status === status) {
             setEvents(events.value.data);
-//             console.log(events.value.data.reduce((a, v)=> {
+            //             console.log(events.value.data.reduce((a, v)=> {
 
-
-//               // if(v.type === "PushEvent"){
-// // // result.concat(...event.payload.commits.filter(commit=> commit.author.name === githubUser.name))
-// // result.push('1')
-// // return a.concat(...v.payload.commits)
-// //}
-// return a.push('1')
-// }, []))
-console.log(
-  events.value.data
-  // .map(n=> n.actor.login)
-  .reduce((a,b)=> {
-    if(b.type === "PushEvent"){
-    a.push(...b.payload.commits.reduce((result, commit)=>{
-      if(commit.author.name=== githubUser.login){
-        result.push({...commit, created_at: b.created_at})
-      }
-    return result 
-    },[]))
-    }
-    return a
-
-}, [])
-
-) 
-
-
-
-
-
-}
+            //               // if(v.type === "PushEvent"){
+            // // // result.concat(...event.payload.commits.filter(commit=> commit.author.name === githubUser.name))
+            // // result.push('1')
+            // // return a.concat(...v.payload.commits)
+            // //}
+            // return a.push('1')
+            // }, []))
+            console.log(
+              events.value.data
+                // .map(n=> n.actor.login)
+                .reduce((a, b) => {
+                  if (b.type === "PushEvent") {
+                    a.push(
+                      ...b.payload.commits.reduce((result, commit) => {
+                        if (commit.author.name === githubUser.login) {
+                          result.push({ ...commit, created_at: b.created_at });
+                        }
+                        return result;
+                      }, [])
+                    );
+                  }
+                  return a;
+                }, [])
+            );
+          }
         })
         .catch((err) => console.log(err));
     } else {
@@ -112,9 +111,9 @@ console.log(
   };
 
   //==============================================================
-  // reduce repo arr to object with language keys holding that language count and stars  
+  // reduce repo arr to object with language keys holding that language count and stars
 
-  // extract from here 
+  // extract from here
 
   const languages = repos.reduce((total, item) => {
     const { language, stargazers_count } = item;
@@ -137,46 +136,50 @@ console.log(
     })
     .slice(0, 5);
 
+  let { stars, forks } = repos.reduce(
+    (total, item) => {
+      const { stargazers_count, name, forks } = item;
+      total.stars[stargazers_count] = { label: name, value: stargazers_count };
+      total.forks[forks] = { label: name, value: forks };
+      return total;
+    },
+    {
+      stars: {},
+      forks: {},
+    }
+  );
 
-    let { stars, forks } = repos.reduce(
-      (total, item) => {
-        const { stargazers_count, name, forks } = item;
-        total.stars[stargazers_count] = { label: name, value: stargazers_count };
-        total.forks[forks] = { label: name, value: forks };
-        return total;
-      },
-      {
-        stars: {},
-        forks: {},
-      }
-    );
+  stars = Object.values(stars).slice(-5).reverse();
+  forks = Object.values(forks).slice(-5).reverse();
+
   
-    stars = Object.values(stars).slice(-5).reverse();
-    forks = Object.values(forks).slice(-5).reverse();
-  
-
-
-console.log(events)
-
-
-
-
-
 
   if (loading) {
-    return <h1>LOADING....</h1>;
+    return (
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        direction="column"
+        style={{ height: "100vh", width: "100vw" }}
+      >
+        {" "}
+        <CircularProgress size={200} />
+      </Grid>
+    );
   } else {
     return (
       <Grid container align="center" justify="center">
-        <Grid item xs={12} style={{background: '#c7c7c7'}}>
-  <Typography component="h1" variant="h5">
-          <Avatar alt="Cindy Baker" src={githubUser.avatar_url} 
-          style={{height: 200, width: 200}}
-          />
-          {githubUser.login}
-        </Typography>
+        <Grid item xs={12} style={{ background: "#c7c7c711" }}>
+          <Typography variant="h5">
+            <Avatar
+              alt="Cindy Baker"
+              src={githubUser.avatar_url}
+              style={{ height: 200, width: 200 }}
+            />
+            {githubUser.login}
+          </Typography>
         </Grid>
-      
 
         <Grid
           item
@@ -184,8 +187,11 @@ console.log(events)
           align="center"
           justify="center"
           sm={4}
-          style={{ height: 200 , border: '1px dashed #00FF0022'}}
+          style={{ height: 300}}
         >
+           <Typography component="h1" variant="h5">
+             Most Used 
+            </Typography>
           <PieCharts data={mostUsed} />
         </Grid>
         {/* <Grid
@@ -204,9 +210,12 @@ console.log(events)
           align="center"
           justify="center"
           sm={8}
-          style={{ height: 400 , border: '1px dashed red'}}
+          // style={{ border: "1px dashed red" }}
         >
-     <MostPopular data={stars}/>
+           {/* <Typography component="h1" variant="h5">
+             Most Popular 
+            </Typography> */}
+          <MostPopular data={stars} />
         </Grid>
 
         <Grid
@@ -215,27 +224,30 @@ console.log(events)
           align="center"
           justify="center"
           sm={12}
-          style={{ border: '1px dashed yellow'}}
+          style={{ border: "1px dashed #c7c7c7" }}
         >
+          <Grid item xs={3}>
+          <Typography component="h1" variant="h5">
+              Followers
+            </Typography>
+            <Followers followers={followers}/>
+          </Grid>
           <Grid
-          item
-          container
-          align="center"
-          justify="center"
-          sm={6}
-          style={{ height: 200 , border: '1px dashed blue'}}
-        >
-
-<Typography component="h1" variant="h5">
-          users recent posts go here
-        </Typography>
-
-
-        
-        </Grid>
-         
-
-
+            item
+            container
+            align="center"
+            justify="center"
+            sm={6}
+            style={{ border: "1px dashed #c7c7cc33" }}
+          >
+            <Typography component="h1" variant="h5">
+             Recent Posts 
+            </Typography>
+            {posts.map((post, index) => {
+              return <Todo key={index} item={post} />;
+            })}
+          </Grid>
+          <Grid item xs={3}/>
         </Grid>
       </Grid>
     );

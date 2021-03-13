@@ -26,8 +26,8 @@ export default {
   addTopic: (postId, body, config)=>{
     return axios.patch(baseUrl+ `/api/posts/${postId}/`, body, config)
   },
-  getUser: (id, config)=>{
-    return axios.get(baseUrl+ `/api/profile/${id}`, config)
+  getUserProfile: (id, config)=>{
+    return axios.get(baseUrl+ `/api/userprofile/${id}`, config)
   }
 
 };

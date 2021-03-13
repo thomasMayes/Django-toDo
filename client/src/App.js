@@ -15,7 +15,7 @@ function App() {
     loadUser();
   }, [isLoading]);
   return (
-    <div className="App" style={{ background: "url(./dial.jpg)" }}>
+    <div className="App" style={{ background: "#161616" }}>
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Login} />

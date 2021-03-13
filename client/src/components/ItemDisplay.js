@@ -19,7 +19,7 @@ export const ItemDisplay = ({ items }) => {
       }}
     >
       {items.map((n, i) => {
-        return <Todo item={n} />;
+        return <Todo item={n} key ={i} />;
       })}
     </Grid>
   );

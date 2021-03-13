@@ -36,11 +36,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   container: {
-    background: "url(./dial.jpg)",
+    background: "#161616",
     height: "100vh",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   login: {
-    background: "#ffffff66",
+    background: "#ffffff11",
   },
 }));
 

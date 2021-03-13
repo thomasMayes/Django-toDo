@@ -6,7 +6,7 @@ from .models import Profile
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from posts.models import Post
-from .serializers import PostSerializer
+from posts.serializers import PostSerializer
 import json
 
 
@@ -25,7 +25,6 @@ class UserProfileView(generics.RetrieveAPIView):
             'posts': serializer.data
 
         }
-        print(result)
 
         return Response(result, status=status.HTTP_200_OK)
 

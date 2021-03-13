@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   card: {
-    background: "#0a1e2566",
+    background: "#212829",
     color: "#ccc",
   },
   topic: {
@@ -88,7 +88,7 @@ const history = useHistory()
           }
           avatar={
             <Avatar onClick ={()=>{
-              history.push(`profile?id =${item.owner.id}`)
+              history.push(`profile?id=${item.owner.id}`)
             }}aria-label="recipe" className={classes.avatar}>
               {item.owner.username[0].toUpperCase()}
             </Avatar>

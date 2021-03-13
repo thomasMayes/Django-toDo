@@ -14,7 +14,7 @@ import {
 export const MostPopular = ({ data }) => {
 
   return (
-    <ResponsiveContainer width={500} height="100%">
+    <ResponsiveContainer width={'100%'} height="100%">
       <BarChart
         // width={500}
         // height={1500}
@@ -30,11 +30,11 @@ export const MostPopular = ({ data }) => {
           strokeDasharray="3 3"
           verticalFill={["#555555", "#444444"]}
           fillOpacity={0.2}
-          stroke={"#000000"}
+          // stroke={"#000000"}
         />
-        <XAxis dataKey="label" stroke={"#000000"} />
-        <YAxis stroke={"#000000"} />
-        <Tooltip />
+        <XAxis dataKey="label" stroke={"#fff"} />
+        <YAxis stroke={"#fff"} />
+        <Tooltip cursor={{fill: '#c7c7c720'}}/>
         <Legend />
         <Bar dataKey="value" fill="#ffffff55" />
       </BarChart>
