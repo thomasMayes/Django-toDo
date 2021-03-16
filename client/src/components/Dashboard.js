@@ -9,9 +9,6 @@ import { ItemDisplay } from "./ItemDisplay";
 import { AddItem} from './AddItem'
 import {Header} from './Header'
 
-
-
-
 export function Dashboard() {
   const {
     setTopics,
@@ -20,17 +17,12 @@ export function Dashboard() {
     posts
   } = useContext(MyContext)
   
-
-
   useEffect(() => {
    fetchPosts()
-
     API.getTopics().then((result) => {
       setTopics(result.data);
     })
   }, []);
-
-  
 
   return (
     <div className="dashboard">
@@ -39,9 +31,6 @@ export function Dashboard() {
         <ItemDisplay items={posts}/>
        <AddItem posts={posts} setPosts={setPosts}/>
       </Grid>
-     
     </div>
   );
 }
-
-

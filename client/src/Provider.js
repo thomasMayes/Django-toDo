@@ -21,17 +21,14 @@ export const MyProvider = (props) => {
 
   const tokenConfig = () => {
     let checkToken = localStorage.getItem("token");
-
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-
     if (checkToken) {
       config.headers["Authorization"] = `Token ${checkToken}`;
     }
-
     return config;
   };
 

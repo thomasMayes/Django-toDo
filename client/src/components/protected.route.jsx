@@ -5,10 +5,7 @@ import { MyContext } from "../Provider";
 
 export const ProtectedRoute = ({ component: Component, ...rest }) => {
   let state = useContext(MyContext);
-  
-
   let token = localStorage.getItem('token')
-
   return (
     <Route
       {...rest}
@@ -26,7 +23,6 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
             );
           }else{
             return (<Component {...props} />)
-
         }
       }}
     />

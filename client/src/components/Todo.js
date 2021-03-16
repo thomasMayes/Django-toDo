@@ -114,13 +114,11 @@ export const Todo = ({ item }) => {
             </IconButton>
           )}
         </div>
-
         <SimpleModal
           menuShow={menuShow}
           setMenuShow={setMenuShow}
           item={item}
         />
-
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
             <FavoriteIcon />

@@ -7,7 +7,7 @@ import { MyContext } from "../Provider";
 import API from "../utils/API";
 import { PieCharts } from "./Pie";
 import { MostPopular } from "./charts/Barchart";
-import Followers from './Followers'
+import Followers from "./Followers";
 import { Todo } from "./Todo";
 import mockUser from "../mockData.js/mockUser";
 import mockRepos from "../mockData.js/mockRepos";
@@ -33,21 +33,16 @@ export const Profile = () => {
 
   useEffect(() => {
     let requestedUser = query.get("id");
-
     API.getUserProfile(requestedUser, tokenConfig()).then((result) => {
-      searchGithubUser(result.data.profile.githubuser )
+      searchGithubUser(result.data.profile.githubuser);
       setPosts(result.data.posts);
-    
     });
-    
   }, []);
 
   function toggleError(show = false, msg = "") {
     setError({ show, msg });
   }
-
   //   ======================== FETCH GitHub UserINfo (move to backend)==================================
-
   const searchGithubUser = async (user) => {
     toggleError();
     setLoading(true);
@@ -77,51 +72,43 @@ export const Profile = () => {
           }
         })
         .catch((err) => console.log(err));
-      } else {
-        toggleError(true, "there is no user with that username");
-      }
-      
-      setLoading(false);
-    };
+    } else {
+      toggleError(true, "there is no user with that username");
+    }
+    setLoading(false);
+  };
+  //==============================================================
+  // reduce repo arr to object with language keys holding that language count and stars
+  // extract from here
+  const languages = repos.reduce((total, item) => {
+    const { language, stargazers_count } = item;
+    if (!language) return total;
+    if (!total[language]) {
+      total[language] = { label: language, value: 1, stars: stargazers_count };
+    } else {
+      total[language] = {
+        ...total[language],
+        value: total[language].value + 1,
+        stars: total[language].stars + stargazers_count,
+      };
+    }
+    return total;
+  }, {});
 
-    
-    //==============================================================
-    // reduce repo arr to object with language keys holding that language count and stars
-    
-    // extract from here
-    
-    const languages = repos.reduce((total, item) => {
-      const { language, stargazers_count } = item;
-      if (!language) return total;
-      if (!total[language]) {
-        total[language] = { label: language, value: 1, stars: stargazers_count };
-      } else {
-        total[language] = {
-          ...total[language],
-          value: total[language].value + 1,
-          stars: total[language].stars + stargazers_count,
-        };
-      }
-      return total;
-    }, {});
-    
-    
-    const activity= events
-        .reduce((a, b) => {
-          if (b.type === "PushEvent") {
-            a.push(
-              ...b.payload.commits.reduce((result, commit) => {
-                if (commit.author.name === githubUser.login) {
-                  result.push({ ...commit, created_at: b.created_at });
-                }
-                return result;
-              }, [])
-            );
+  const activity = events.reduce((a, b) => {
+    if (b.type === "PushEvent") {
+      a.push(
+        ...b.payload.commits.reduce((result, commit) => {
+          if (commit.author.name === githubUser.login) {
+            result.push({ ...commit, created_at: b.created_at });
           }
-          return a;
+          return result;
         }, [])
-    
-    
+      );
+    }
+    return a;
+  }, []);
+
   const mostUsed = Object.values(languages)
     .sort((a, b) => {
       return b.value - a.value;
@@ -140,11 +127,8 @@ export const Profile = () => {
       forks: {},
     }
   );
-
   stars = Object.values(stars).slice(-5).reverse();
   forks = Object.values(forks).slice(-5).reverse();
-
-  
 
   if (loading) {
     return (
@@ -155,7 +139,6 @@ export const Profile = () => {
         direction="column"
         style={{ height: "100vh", width: "100vw" }}
       >
-        {" "}
         <CircularProgress size={200} />
       </Grid>
     );
@@ -172,44 +155,28 @@ export const Profile = () => {
             {githubUser.login}
           </Typography>
         </Grid>
-
         <Grid
           item
           container
           align="center"
           justify="center"
           sm={4}
-          style={{ height: 300}}
+          style={{ height: 300 }}
         >
-           <Typography component="h1" variant="h5">
-             Most Used 
-            </Typography>
+          <Typography component="h1" variant="h5">
+            Most Used
+          </Typography>
           <PieCharts data={mostUsed} />
         </Grid>
-        {/* <Grid
-          item
-          container
-          align="center"
-          justify="center"
-          sm={4}
-          style={{ height: 200 , border: '1px dashed red'}}
-        >
-          <PieCharts data={mostUsed} />
-        </Grid> */}
         <Grid
           item
           container
           align="center"
           justify="center"
           sm={8}
-          // style={{ border: "1px dashed red" }}
         >
-           {/* <Typography component="h1" variant="h5">
-             Most Popular 
-            </Typography> */}
           <MostPopular data={stars} />
         </Grid>
-
         <Grid
           item
           container
@@ -219,10 +186,10 @@ export const Profile = () => {
           style={{ border: "1px dashed #c7c7c7" }}
         >
           <Grid item xs={3}>
-          <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h5">
               Followers
             </Typography>
-            <Followers followers={followers}/>
+            <Followers followers={followers} />
           </Grid>
           <Grid
             item
@@ -233,13 +200,13 @@ export const Profile = () => {
             style={{ border: "1px dashed #c7c7cc33" }}
           >
             <Typography component="h1" variant="h5">
-             Recent Posts 
+              Recent Posts
             </Typography>
             {posts.map((post, index) => {
               return <Todo key={index} item={post} />;
             })}
           </Grid>
-          <Grid item xs={3}/>
+          <Grid item xs={3} />
         </Grid>
       </Grid>
     );

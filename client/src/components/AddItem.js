@@ -5,7 +5,6 @@ import { MyContext } from "../Provider";
 import API from "../utils/API";
 import CusButton from "./CustomButton";
 
-
 export const AddItem = ({ setPosts, posts }) => {
   let state = useContext(MyContext);
   let [title, setTitle] = useState("");

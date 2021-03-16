@@ -12,7 +12,6 @@ import { MyContext } from "../Provider";
 import CustomButton from "./CustomButton";
 import API from "../utils/API";
 
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",

@@ -1,11 +1,6 @@
 import React from 'react';
 
-
-
-const Followers = ({followers}) => {
-
-
-  return (
+const Followers = ({followers}) => (
     <>
       <div className='followers' style={{height: '400px', overflowY: 'scroll'}}>
         {followers.map((follower, index) => {
@@ -23,7 +18,5 @@ const Followers = ({followers}) => {
       </div>
     </>
   );
-};
-
 
 export default Followers;
