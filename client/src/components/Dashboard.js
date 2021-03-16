@@ -1,18 +1,15 @@
-import { useEffect, useState, useContext } from "react";
-
+import { useEffect, useContext } from "react";
 import {
-  Input,
-  TextField,
   Grid,
-  Button,
-  ButtonGroup,
-  Typography,
 } from "@material-ui/core";
+
+import { MyContext } from "../Provider";
+import API from "../utils/API";
 import { ItemDisplay } from "./ItemDisplay";
 import { AddItem} from './AddItem'
 import {Header} from './Header'
-import API from "../utils/API";
-import { MyContext } from "../Provider";
+
+
 
 
 export function Dashboard() {
@@ -29,7 +26,6 @@ export function Dashboard() {
    fetchPosts()
 
     API.getTopics().then((result) => {
-      // console.log(result.data)
       setTopics(result.data);
     })
   }, []);

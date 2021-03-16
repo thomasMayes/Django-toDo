@@ -1,14 +1,16 @@
 import { useState, useContext } from "react";
 import { TextField, Grid } from "@material-ui/core";
+
+import { MyContext } from "../Provider";
 import API from "../utils/API";
 import CusButton from "./CustomButton";
-import { MyContext } from "../Provider";
+
 
 export const AddItem = ({ setPosts, posts }) => {
   let state = useContext(MyContext);
   let [title, setTitle] = useState("");
   let [description, setDescription] = useState("");
-  let [topics, setTopics] = useState([]);
+  let [topics] = useState([]);
 
   const addTask = () => {
     API.addPost(

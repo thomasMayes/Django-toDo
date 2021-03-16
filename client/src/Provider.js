@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import API from "./utils/API";
 import { useHistory } from "react-router-dom";
@@ -19,15 +19,6 @@ export const MyProvider = (props) => {
   let [posts, setPosts] = useState([]);
   let history = useHistory();
 
-  // useEffect(() => {
-  //   if(token){
-  //     axios.defaults.headers.common["Authorization"] = `token ${localStorage.getItem(
-  //     "token"
-  //   )}`
-  //   }
-
-  // }, [token]);
-
   const tokenConfig = () => {
     let checkToken = localStorage.getItem("token");
 
@@ -47,7 +38,6 @@ export const MyProvider = (props) => {
   const loadUser = () => {
     API.getCurrentUser(tokenConfig())
       .then((result) => {
-       
         setIsAuthenticated(true);
         updateUser(result.data);
         history.push("/dashboard");

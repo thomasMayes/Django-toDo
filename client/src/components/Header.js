@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { MyContext } from "../Provider";
 import { useHistory } from "react-router-dom";
-import { Grid, Typography, Button } from "@material-ui/core";
+import { Grid} from "@material-ui/core";
+
+import { MyContext } from "../Provider";
 import API from "../utils/API";
 import CusButton from './CustomButton'
 

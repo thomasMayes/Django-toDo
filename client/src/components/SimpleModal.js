@@ -7,24 +7,11 @@ import {
   ListItemText,
   FormControl,
 } from "@material-ui/core";
+
 import { MyContext } from "../Provider";
 import CustomButton from "./CustomButton";
 import API from "../utils/API";
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,19 +27,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleModal(props) {
   let { menuShow, setMenuShow, item } = props;
   const classes = useStyles();
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
   const [topics, setTopics] = React.useState([...item.topics]);
   const state = useContext(MyContext);
  
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const addTopic = (topicId) => {
     let updatedTopicArray = [...topics].map((n) => n.id).concat(topicId);
     API.addTopic(item.id, { topics: updatedTopicArray }).then((result) => {
@@ -60,15 +37,18 @@ export default function SimpleModal(props) {
     });
   };
 
-  const body = (
-    <div style={modalStyle} className={classes.paper}>
+  const Modalbody = (
+    <div style={ {
+      top: `50%`,
+      left: `50%`,
+      transform: `translate(-50%, -50%)`,
+  }} className={classes.paper}>
       <FormControl>
         {state.topics.map((topic) => {
           if (topics.map((n) => n.title).indexOf(topic.title) > -1) {
             return (
               <MenuItem key={topic.title} value={topic.title}>
                 <Checkbox
-                  //    checked={true}
                   onChange={(e) => {
                     console.log(e.target.checked);
                   }}
@@ -85,7 +65,6 @@ export default function SimpleModal(props) {
                 onClick={() => addTopic(topic.id)}
               >
                 <Checkbox
-                  //   checked={topics.indexOf(topic.title) > -1}
                   onChange={(e) => {
                     console.log(e.target.checked);
                   }}
@@ -109,7 +88,7 @@ export default function SimpleModal(props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {body}
+        {Modalbody}
       </Modal>
     </div>
   );

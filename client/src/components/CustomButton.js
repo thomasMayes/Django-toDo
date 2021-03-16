@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import Button from '@material-ui/core/Button';
+import {Button} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
-// We can inject some CSS into the DOM.
+
 const styles = {
   root: {
     background: 'linear-gradient(232deg, #0e7575a3 30%, #1c504a 90%)',

@@ -15,7 +15,6 @@ const renderCustomizedLabel = (props) => {
     innerRadius,
     outerRadius,
     percent,
-    index,
     label,
   } = props;
 
@@ -32,7 +31,7 @@ const renderCustomizedLabel = (props) => {
       dominantBaseline="central"
     >
       {`${label} ${(percent * 100).toFixed(0)}%`}
-      {/* {`${label}`} */}
+
     </text>
   );
 };

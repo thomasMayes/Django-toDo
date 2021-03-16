@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Grid,
   Typography,
@@ -11,7 +12,6 @@ import {
   Collapse,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -19,18 +19,14 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ControlPoint from "@material-ui/icons/ControlPoint";
 import clsx from "clsx";
 import SimpleModal from "./SimpleModal";
+
 import { MyContext } from "../Provider";
-import {useHistory} from 'react-router-dom'
 
 var moment = require("moment");
 const useStyles = makeStyles((theme) => ({
-  root: {
-    //   width: 245,
-    //   margin: 20
-  },
   media: {
     height: 0,
-    paddingTop: "56.25%", // 16:9
+    paddingTop: "56.25%", 
   },
   expand: {
     transform: "rotate(0deg)",
@@ -55,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#161616",
     borderRadius: "50px",
     padding: "0 10px",
-    marginLeft: "10px"
+    marginLeft: "10px",
   },
   topicContainer: {
     display: "flex",
@@ -70,12 +66,10 @@ export const Todo = ({ item }) => {
   const [expanded, setExpanded] = React.useState(false);
   const [menuShow, setMenuShow] = React.useState(false);
   const { user } = useContext(MyContext);
-const history = useHistory()
+  const history = useHistory();
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-
 
   return (
     <Grid item xs={12} sm={12}>
@@ -87,9 +81,13 @@ const history = useHistory()
             </IconButton>
           }
           avatar={
-            <Avatar onClick ={()=>{
-              history.push(`profile?id=${item.owner.id}`)
-            }}aria-label="recipe" className={classes.avatar}>
+            <Avatar
+              onClick={() => {
+                history.push(`profile?id=${item.owner.id}`);
+              }}
+              aria-label="recipe"
+              className={classes.avatar}
+            >
               {item.owner.username[0].toUpperCase()}
             </Avatar>
           }

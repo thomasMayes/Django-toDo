@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { Grid, Typography, Avatar, CircularProgress } from "@material-ui/core";
+
 import { MyContext } from "../Provider";
+import API from "../utils/API";
+import { PieCharts } from "./Pie";
+import { MostPopular } from "./charts/Barchart";
+import Followers from './Followers'
+import { Todo } from "./Todo";
 import mockUser from "../mockData.js/mockUser";
 import mockRepos from "../mockData.js/mockRepos";
 import mockFollowers from "../mockData.js/mockFollowers";
 import mockEvents from "../mockData.js/mockEvents";
-import axios from "axios";
-import { useLocation } from "react-router-dom";
-import { Grid, Typography, Avatar, CircularProgress } from "@material-ui/core";
-import { PieCharts } from "./Pie";
-import { MostPopular } from "./charts/Barchart";
-import Followers from './Followers'
-import API from "../utils/API";
-import { Todo } from "./Todo";
+
 const rootUrl = "https://api.github.com";
 
 function useQuery() {
@@ -35,18 +37,16 @@ export const Profile = () => {
     API.getUserProfile(requestedUser, tokenConfig()).then((result) => {
       searchGithubUser(result.data.profile.githubuser )
       setPosts(result.data.posts);
-      // setLoading(false);
+    
     });
-    // if (requestedUser) {
-    //   searchGithubUser(requestedUser);
-    // }
+    
   }, []);
 
   function toggleError(show = false, msg = "") {
     setError({ show, msg });
   }
 
-  //   ======================== FETCH GitHub UserINfo==================================
+  //   ======================== FETCH GitHub UserINfo (move to backend)==================================
 
   const searchGithubUser = async (user) => {
     toggleError();
@@ -74,62 +74,54 @@ export const Profile = () => {
           }
           if (events.status === status) {
             setEvents(events.value.data);
-            //             console.log(events.value.data.reduce((a, v)=> {
-
-            //               // if(v.type === "PushEvent"){
-            // // // result.concat(...event.payload.commits.filter(commit=> commit.author.name === githubUser.name))
-            // // result.push('1')
-            // // return a.concat(...v.payload.commits)
-            // //}
-            // return a.push('1')
-            // }, []))
-            console.log(
-              events.value.data
-                // .map(n=> n.actor.login)
-                .reduce((a, b) => {
-                  if (b.type === "PushEvent") {
-                    a.push(
-                      ...b.payload.commits.reduce((result, commit) => {
-                        if (commit.author.name === githubUser.login) {
-                          result.push({ ...commit, created_at: b.created_at });
-                        }
-                        return result;
-                      }, [])
-                    );
-                  }
-                  return a;
-                }, [])
-            );
           }
         })
         .catch((err) => console.log(err));
-    } else {
-      toggleError(true, "there is no user with that username");
-    }
+      } else {
+        toggleError(true, "there is no user with that username");
+      }
+      
+      setLoading(false);
+    };
 
-    setLoading(false);
-  };
-
-  //==============================================================
-  // reduce repo arr to object with language keys holding that language count and stars
-
-  // extract from here
-
-  const languages = repos.reduce((total, item) => {
-    const { language, stargazers_count } = item;
-    if (!language) return total;
-    if (!total[language]) {
-      total[language] = { label: language, value: 1, stars: stargazers_count };
-    } else {
-      total[language] = {
-        ...total[language],
-        value: total[language].value + 1,
-        stars: total[language].stars + stargazers_count,
-      };
-    }
-    return total;
-  }, {});
-
+    
+    //==============================================================
+    // reduce repo arr to object with language keys holding that language count and stars
+    
+    // extract from here
+    
+    const languages = repos.reduce((total, item) => {
+      const { language, stargazers_count } = item;
+      if (!language) return total;
+      if (!total[language]) {
+        total[language] = { label: language, value: 1, stars: stargazers_count };
+      } else {
+        total[language] = {
+          ...total[language],
+          value: total[language].value + 1,
+          stars: total[language].stars + stargazers_count,
+        };
+      }
+      return total;
+    }, {});
+    
+    
+    const activity= events
+        .reduce((a, b) => {
+          if (b.type === "PushEvent") {
+            a.push(
+              ...b.payload.commits.reduce((result, commit) => {
+                if (commit.author.name === githubUser.login) {
+                  result.push({ ...commit, created_at: b.created_at });
+                }
+                return result;
+              }, [])
+            );
+          }
+          return a;
+        }, [])
+    
+    
   const mostUsed = Object.values(languages)
     .sort((a, b) => {
       return b.value - a.value;
