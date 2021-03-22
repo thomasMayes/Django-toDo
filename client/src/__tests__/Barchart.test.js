@@ -1,9 +1,5 @@
 import React from "react";
-import { ItemDisplay } from "../components/ItemDisplay";
 import { shallow, mount } from "enzyme";
-import { MyContext } from "../Provider";
-import { MostPopular } from "../components/charts/Barchart";
-import { Todo } from "../components/Todo";
 import {
   BarChart,
   Bar,
@@ -16,6 +12,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+import { MyContext } from "../Provider";
+import { MostPopular } from "../components/charts/Barchart";
+import { Todo } from "../components/Todo";
+import { ItemDisplay } from "../components/ItemDisplay";
 // pass in items = [ of posts ]
 
 describe("<Most Popular/>", () => {

@@ -46,7 +46,7 @@ export const AddItem = ({ setPosts, posts }) => {
         />
       </Grid>
       <Grid item xs={12} align="center">
-        <CusButton onClick={() => addTask()}>Add Post</CusButton>
+        <CusButton onClick={addTask}>Add Post</CusButton>
       </Grid>
     </Grid>
   );

@@ -11,7 +11,7 @@ import {Header} from './Header'
 
 export function Dashboard() {
   const {
-    setTopics,
+    setAllTopics,
     fetchPosts,
     setPosts,
     posts
@@ -20,16 +20,16 @@ export function Dashboard() {
   useEffect(() => {
    fetchPosts()
     API.getTopics().then((result) => {
-      setTopics(result.data);
+      setAllTopics(result.data);
     })
   }, []);
 
   return (
     <div className="dashboard">
       <Grid container align="center" justify='center' spacing={5 } className={'top-grid'}>
-      <Header/>
-        <ItemDisplay items={posts}/>
-       <AddItem posts={posts} setPosts={setPosts}/>
+      <Header />
+        <ItemDisplay items={posts} />
+        <AddItem posts={posts} setPosts={setPosts} />
       </Grid>
     </div>
   );

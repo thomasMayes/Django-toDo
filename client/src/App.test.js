@@ -7,5 +7,4 @@ describe('<App/>', ()=>{
         // const component = shallow(<App/>);
         expect(1==1)
     })
-
 })

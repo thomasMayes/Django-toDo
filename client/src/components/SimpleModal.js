@@ -26,25 +26,34 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleModal(props) {
   let { menuShow, setMenuShow, item } = props;
   const classes = useStyles();
-  const [topics, setTopics] = React.useState([...item.topics]);
+  const [itemTopics, setTopics] = React.useState([...item.topics]);
   const state = useContext(MyContext);
  
   const addTopic = (topicId) => {
-    let updatedTopicArray = [...topics].map((n) => n.id).concat(topicId);
+    let updatedTopicArray = [...itemTopics].map((n) => n.id).concat(topicId);
     API.addTopic(item.id, { topics: updatedTopicArray }).then((result) => {
       state.fetchPosts();
     });
   };
 
-  const Modalbody = (
-    <div style={ {
+ 
+
+  return (
+    <div>
+      <Modal
+        open={menuShow}
+        onClose={() => setMenuShow(false)}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+           <div style={ {
       top: `50%`,
       left: `50%`,
       transform: `translate(-50%, -50%)`,
   }} className={classes.paper}>
       <FormControl>
-        {state.topics.map((topic) => {
-          if (topics.map((n) => n.title).indexOf(topic.title) > -1) {
+        {state.allTopics.map((topic) => {
+          if (itemTopics.map((currentTopic) => currentTopic.title).indexOf(topic.title) > -1) {
             return (
               <MenuItem key={topic.title} value={topic.title}>
                 <Checkbox
@@ -73,21 +82,11 @@ export default function SimpleModal(props) {
               </MenuItem>
             );
           }
+        
         })}
         <CustomButton>Save</CustomButton>
       </FormControl>
     </div>
-  );
-
-  return (
-    <div>
-      <Modal
-        open={menuShow}
-        onClose={() => setMenuShow(false)}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        {Modalbody}
       </Modal>
     </div>
   );

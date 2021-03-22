@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export const Register = (props) => {
   const classes = useStyles();
   const [name, setName] = useState("");
@@ -44,13 +43,11 @@ export const Register = (props) => {
   const [password, setPassword] = useState("");
   
   const onSubmit = (e) => {
-
     e.preventDefault();
     API.register(name, email, password).then((result) => {
    // add redirect after successful login 
    // message 'account succeffully created  - please login '  
     // props.history.push('/login')
-     
     });
   };
 
@@ -132,5 +129,3 @@ export const Register = (props) => {
     </Container>
   );
 };
-
-

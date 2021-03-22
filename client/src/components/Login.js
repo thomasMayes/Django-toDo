@@ -51,29 +51,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   let history = useHistory();
-
   let state = useContext(MyContext);
-
   let [password, updatePassword] = useState("");
   let [message, updateMessage] = useState("");
-  let [email, updateEmail] = useState("");
-
+  let [username, updateUsername] = useState("");
   const classes = useStyles();
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    API.login(email, password)
+    API.login(username, password)
       .then((result) => {
         state.setToken(result.data.token);
         localStorage.setItem("token", result.data.token);
         state.updateUser(result.data.user);
         state.setIsAuthenticated(true);
-
         history.push("/dashboard");
       })
       .catch((error) => {
-        console.log(error);
         if (error.response.status === 400) {
           updateMessage({
             message: "Login failed. Username or password not match",
@@ -98,15 +92,13 @@ const Login = () => {
           <form className={classes.form} noValidate>
             <TextField
               variant="outlined"
-              margin="normal"
               required
               fullWidth
-              id="email"
+              id="username"
               label="User Name"
-              name="email"
-              autoComplete="email"
+              name="username"
               autoFocus
-              onChange={(e) => updateEmail(e.target.value)}
+              onChange={(e) => updateUsername(e.target.value)}
             />
             <TextField
               variant="outlined"

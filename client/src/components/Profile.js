@@ -148,7 +148,7 @@ export const Profile = () => {
         <Grid item xs={12} style={{ background: "#c7c7c711" }}>
           <Typography variant="h5">
             <Avatar
-              alt="Cindy Baker"
+              alt={githubUser.name}
               src={githubUser.avatar_url}
               style={{ height: 200, width: 200 }}
             />

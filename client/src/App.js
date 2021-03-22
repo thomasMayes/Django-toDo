@@ -9,13 +9,14 @@ import { ProtectedRoute } from "./components/protected.route.jsx";
 import { Profile } from "./components/Profile";
 
 function App() {
-  let { loadUser, isLoading } = useContext(MyContext);
+  const { loadUser, isLoading } = useContext(MyContext);
 
   useEffect(() => {
     loadUser();
   }, [isLoading]);
+
   return (
-    <div className="App" style={{ background: "#161616" }}>
+    <div style={{ background: "#161616" }}>
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Login} />

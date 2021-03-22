@@ -16,7 +16,7 @@ const styles = {
   },
 };
 
-function ClassNames(props) {
+function GenerateCustomButton(props) {
   const { classes, children, className, ...other } = props;
   return (
     <Button className={clsx(classes.root, className)} {...other}>
@@ -24,11 +24,10 @@ function ClassNames(props) {
     </Button>
   );
 }
-
-ClassNames.propTypes = {
+GenerateCustomButton.propTypes = {
   children: PropTypes.node,
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
 };
 
-export default withStyles(styles)(ClassNames);
+export default withStyles(styles)(GenerateCustomButton);

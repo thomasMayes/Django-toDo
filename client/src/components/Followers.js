@@ -1,8 +1,10 @@
 import React from 'react';
 
-const Followers = ({followers}) => (
+const Followers = (props) =>{
+  const {followers} = props
+return   (
     <>
-      <div className='followers' style={{height: '400px', overflowY: 'scroll'}}>
+      <div style={{height: '400px', overflowY: 'scroll'}}>
         {followers.map((follower, index) => {
           const { avatar_url: img, html_url, login } = follower;
           return (
@@ -18,5 +20,6 @@ const Followers = ({followers}) => (
       </div>
     </>
   );
+}
 
 export default Followers;

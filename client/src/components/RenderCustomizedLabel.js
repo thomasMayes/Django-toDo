@@ -1,4 +1,4 @@
-const RADIAN = Math.PI / 180;
+
 export const RenderCustomizedLabel = (props) => {
     let {
       cx,
@@ -9,6 +9,7 @@ export const RenderCustomizedLabel = (props) => {
       percent,
       label,
     } = props;
+    const RADIAN = Math.PI / 180;
     const radius = innerRadius + (outerRadius - innerRadius) *1.3
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -24,3 +25,4 @@ export const RenderCustomizedLabel = (props) => {
       </text>
     );
   };
+  

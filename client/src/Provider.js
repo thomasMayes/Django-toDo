@@ -9,15 +9,15 @@ export const MyProvider = (props) => {
   const defaultUserState = {
     name: "",
   };
-
-  let [user, updateUser] = useState(defaultUserState);
-  let [items, updateItems] = useState([]);
+  const {getPosts, getCurrentUser} = API
+  const [user, updateUser] = useState(defaultUserState);
+  const [items, updateItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
-  const [topics, setTopics] = useState([]);
-  let [posts, setPosts] = useState([]);
-  let history = useHistory();
+  const [allTopics, setAllTopics] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const history = useHistory();
 
   const tokenConfig = () => {
     let checkToken = localStorage.getItem("token");
@@ -33,7 +33,7 @@ export const MyProvider = (props) => {
   };
 
   const loadUser = () => {
-    API.getCurrentUser(tokenConfig())
+    getCurrentUser(tokenConfig())
       .then((result) => {
         setIsAuthenticated(true);
         updateUser(result.data);
@@ -49,7 +49,7 @@ export const MyProvider = (props) => {
   };
 
   const fetchPosts = () => {
-    API.getPosts()
+    getPosts()
       .then((result) => {
         setPosts(result.data);
       })
@@ -72,8 +72,8 @@ export const MyProvider = (props) => {
         setToken,
         removeToken,
         tokenConfig,
-        topics,
-        setTopics,
+        allTopics,
+        setAllTopics,
         posts,
         setPosts,
         fetchPosts,

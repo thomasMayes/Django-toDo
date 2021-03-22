@@ -12,7 +12,7 @@ import {
 
 export const MostPopular = ({ data }) => {
   return (
-    <ResponsiveContainer width={'100%'} height="100%">
+    <ResponsiveContainer width='100%' height="100%">
       <BarChart
         data={data}
         margin={{

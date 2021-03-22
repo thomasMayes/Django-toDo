@@ -11,10 +11,6 @@ describe('<Add Item/>', ()=>{
         
         //=================================What to do when dependednt on API
          //  component.find(Button).simulate('click', {})
-
-
-
         expect(component)
     })
-
 })
