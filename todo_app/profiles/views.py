@@ -27,4 +27,3 @@ class UserProfileView(generics.RetrieveAPIView):
         }
 
         return Response(result, status=status.HTTP_200_OK)
-
