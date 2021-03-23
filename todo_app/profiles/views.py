@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from posts.models import Post
 from posts.serializers import PostSerializer
-import json
+
 
 
 class UserProfileView(generics.RetrieveAPIView):
@@ -28,5 +28,3 @@ class UserProfileView(generics.RetrieveAPIView):
 
         return Response(result, status=status.HTTP_200_OK)
 
-
-# Create your views here.

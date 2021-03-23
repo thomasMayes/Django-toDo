@@ -10,19 +10,14 @@ class PostViewSet(viewsets.ModelViewSet):
     #     permissions.IsAuthenticated,
     # ]
     serializer_class = PostSerializer
-
-    def get_queryset(self):
-        return Post.objects.all()
-        # return self.request.user.posts.all()
+    queryset = Post.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-
 class TopicViewset(viewsets.ModelViewSet):
     queryset = Topic.objects.all()
     serializer_class = TopicSerializer
-
 
 class UserViewset(viewsets.ModelViewSet):
     queryset = User.objects.all()

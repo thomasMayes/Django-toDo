@@ -4,8 +4,6 @@ from rest_framework.response import Response
 from rest_framework import generics, status
 from .serializers import PostSerializer, CreatePostSerializer
 from .models import Post
-# Create your views here.
-
 
 class CreatePostView(APIView):
     serializer_class = CreatePostSerializer

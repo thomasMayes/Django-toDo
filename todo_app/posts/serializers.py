@@ -2,9 +2,6 @@ from rest_framework import serializers
 from posts.models import Post, Topic
 from django.contrib.auth.models import User
 
-# Lead Serializer
-
-
 class TopicLister(serializers.PrimaryKeyRelatedField):
     def to_representation(self, value):
         thing = {
@@ -14,21 +11,17 @@ class TopicLister(serializers.PrimaryKeyRelatedField):
         }
         return thing
 
-
 class OwnerLister(serializers.RelatedField):
     def to_representation(self, value):
-
         return {
             'username': value.username,
             'id': value.id
         }
 
-
 class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
         fields = "__all__"
-
 
 class PostSerializer(serializers.ModelSerializer):
     # topics = serializers.PrimaryKeyRelatedField(

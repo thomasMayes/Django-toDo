@@ -4,9 +4,6 @@ from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
 from django.contrib.auth.models import User
 
-# Register API
-
-
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
 
@@ -18,9 +15,6 @@ class RegisterAPI(generics.GenericAPIView):
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
         })
-
-# Login API
-
 
 class LoginAPI(generics.GenericAPIView):
     serializer_class = LoginSerializer
@@ -35,9 +29,6 @@ class LoginAPI(generics.GenericAPIView):
             "token": token
         })
 
-# Get User API
-
-
 class UserAPI(generics.RetrieveAPIView):
     permission_classes = [
         permissions.IsAuthenticated,
@@ -47,7 +38,6 @@ class UserAPI(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
 
-
 class FindUserAPI(generics.RetrieveAPIView):
     permission_classes = [
         permissions.IsAuthenticated,
@@ -55,6 +45,4 @@ class FindUserAPI(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
     def get_object(self):
-        User = get_user_model()
-        users = User.objects.all()
-        return (User.objects.all())
+        return (get_user_model().objects.all())

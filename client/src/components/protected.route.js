@@ -15,10 +15,10 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
         } else if( !token) {
           return (
             <Redirect
-            to={{
-              pathname: "/",
-              state: props.location,
-            }}
+              to={{
+                pathname: "/",
+                state: props.location,
+              }}
             />
             );
           }else{

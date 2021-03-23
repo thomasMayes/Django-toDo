@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
+import clsx from "clsx";
 import {
   Grid,
   Typography,
@@ -17,9 +18,8 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ControlPoint from "@material-ui/icons/ControlPoint";
-import clsx from "clsx";
-import SimpleModal from "./SimpleModal";
 
+import SimpleModal from "./SimpleModal";
 import { MyContext } from "../Provider";
 
 var moment = require("moment");
@@ -63,10 +63,10 @@ const useStyles = makeStyles((theme) => ({
 
 export const Todo = ({ item }) => {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-  const [menuShow, setMenuShow] = React.useState(false);
   const { user } = useContext(MyContext);
   const history = useHistory();
+  const [expanded, setExpanded] = useState(false);
+  const [menuShow, setMenuShow] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -108,7 +108,7 @@ export const Todo = ({ item }) => {
               </Typography>
             );
           })}
-          {item.owner.username == user.username && (
+          {item.owner.username === user.username && (
             <IconButton aria-label="settings" style={{ padding: 0 }}>
               <ControlPoint onClick={() => setMenuShow(true)} />
             </IconButton>
